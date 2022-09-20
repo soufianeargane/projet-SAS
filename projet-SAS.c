@@ -34,15 +34,12 @@ void ajouter(){
 	for (i=0;i<n;i++){
 		printf("\n Le code de produit %d : ", i+1);
 		scanf("%d",&T_med[c_med].code);
-		fflush(stdin);
 		
 		printf("\n Le nom de produit %d : ", i+1);
 		scanf("%s",&T_med[c_med].nom);
-		fflush(stdin);
 		
 		printf("\n La quantite du produit %d : ", i+1);
 		scanf("%d",&T_med[c_med].quantite);
-		fflush(stdin);
 		
 		printf("\n Le prix du produit %d : ", i+1);
 		scanf("%f",&T_med[c_med].prix);
