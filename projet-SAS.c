@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 //  HERE ARE THE STRUCTURES I AM USING
 struct medication {
@@ -13,7 +14,7 @@ struct medication T_med[1000];
 struct vende{
 	char nom[20];
 	int vendu;
-	int h, m, s;
+	int jour, mois, annee;
 	float prix;
 };
 struct vende T_vend[100];
@@ -134,7 +135,7 @@ int ed_qte, ex_qte;
 char nom_pro_vend[20];
 int vende, h,m,s;
 void mofidier(){
-	printf("tapez le code de produit pour modifier la quantité: ");
+	printf("tapez le code de produit pour modifier la quantite: ");
 	scanf("%d",&ed_qte);
 	for(i=0;i<c_med;i++){
 		if (ed_qte==T_med[i].code){
@@ -143,20 +144,21 @@ void mofidier(){
 			scanf("%d",&T_med[i].quantite);
 			if(T_med[i].quantite<ex_qte){
 				vende = ex_qte - T_med[i].quantite;
-				printf("\nTapez le temps (in HH:MM:SS) : ");
-				scanf("%02d:%02d:%02d",&h,&m,&s);
-				
 				T_vend[c_vend].vendu= vende;
-				T_vend[c_vend].h=h;
-				T_vend[c_vend].m=m;
-				T_vend[c_vend].s=s;
+				///////////
+				time_t t;
+				time(&t); 
+				struct tm *tmm = localtime(&t); 
+				T_vend[i].jour= tmm->tm_mday;
+				T_vend[i].mois= tmm->tm_mon + 1;
+				T_vend[i].annee =tmm->tm_year + 1900;
+				////////////
 				T_vend[c_vend].prix= T_med[i].prix;
 				strcpy(nom_pro_vend,T_med[i].nom);
 				strcpy(T_vend[c_vend].nom,nom_pro_vend);
 				
 				c_vend++;	
 			}
-			fflush(stdin);
 		}	
 	}
 	
@@ -227,15 +229,16 @@ void revenue(){
 	printf("\n   Les produit vendus aujourd'hui:  ");
 	for(i=0;i<c_vend;i++){
 		printf("\nle nom de produit:  %s", T_vend[i].nom);
-		printf("\nla quantite de produit:  %d", T_vend[i].vendu);
+		printf("\nla quantite de produit vendu:  %d", T_vend[i].vendu);
 		printf("\nle prix d'un produit:  %.2f", T_vend[i].prix);
 		prix_ttc = T_vend[i].prix + T_vend[i].prix * 0.15;
 		printf("\nle prix TTC d'un produit:  %.2f", prix_ttc);
-		printf("\ntemps: %d:%d:%d", T_vend[i].h,T_vend[i].m,T_vend[i].s);
+		
+		
+		printf("\nLa date: %d/%d/%d", T_vend[i].jour,T_vend[i].mois,T_vend[i].annee);
 		printf("\n-------------------------------\n");
 		printf("\n");
 	}
-
 }
 
 
