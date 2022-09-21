@@ -14,7 +14,7 @@ struct medication T_med[1000];
 struct vende{
 	char nom[20];
 	int vendu;
-	int jour, mois, annee;
+	int second ,minute, heure, jour, mois, annee ;
 	float prix;
 };
 struct vende T_vend[100];
@@ -152,6 +152,9 @@ void mofidier(){
 				T_vend[i].jour= tmm->tm_mday;
 				T_vend[i].mois= tmm->tm_mon + 1;
 				T_vend[i].annee =tmm->tm_year + 1900;
+				T_vend[i].heure=tmm->tm_hour;
+				T_vend[i].minute=tmm->tm_min;
+				T_vend[i].second=tmm->tm_sec;
 				////////////
 				T_vend[c_vend].prix= T_med[i].prix;
 				strcpy(nom_pro_vend,T_med[i].nom);
@@ -209,8 +212,7 @@ void suprimer(){
 	scanf("%d",&code);
 	for(i=0;i<c_med;i++){
 		if(code==T_med[i].code){
-			index = i;
-			for(i = index; i<c_med;i++){
+			for(i ; i<c_med;i++){
 				T_med[i]=T_med[i+1];	
 			}
 			c_med--;		
@@ -235,7 +237,7 @@ void revenue(){
 		printf("\nle prix TTC d'un produit:  %.2f", prix_ttc);
 		
 		
-		printf("\nLa date: %d/%d/%d", T_vend[i].jour,T_vend[i].mois,T_vend[i].annee);
+		printf("\nLa date: %d/%d/%d  %d:%d:%d", T_vend[i].jour,T_vend[i].mois,T_vend[i].annee, T_vend[i].heure, T_vend[i].minute,T_vend[i].second);
 		printf("\n-------------------------------\n");
 		printf("\n");
 	}
